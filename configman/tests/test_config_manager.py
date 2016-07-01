@@ -2043,7 +2043,7 @@ c.string =   from ini
                 argv_source=['--admin.conf=x.ini']
             )
             assert False, "where's the missing exception?"
-        except AllHandlersFailedException, x:
+        except AllHandlersFailedException as x:
             self.assertTrue('ConfigObj cannot load' in str(x))
         finally:
             os.remove('x.ini')

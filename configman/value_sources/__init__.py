@@ -136,7 +136,7 @@ def wrap_with_value_source_api(value_source_list, a_config_manager):
                 wrapped_source = a_handler.ValueSource(a_source,
                                                        a_config_manager)
                 break
-            except (ValueException, CannotConvertError), x:
+            except (ValueException, CannotConvertError) as x:
                 # a failure is not necessarily fatal, we need to try all of
                 # the handlers.  It's only fatal when they've all failed
                 exception_as_str = str(x)

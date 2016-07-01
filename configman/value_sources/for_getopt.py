@@ -91,7 +91,7 @@ class ValueSource(object):
             getopt_options, config_manager.args = fn(self.argv_source,
                                                      short_options_str,
                                                      long_options_list)
-        except getopt.GetoptError, x:
+        except getopt.GetoptError as x:
             raise NotAnOptionError(str(x))
         command_line_values = obj_hook()
         for opt_name, opt_val in getopt_options:

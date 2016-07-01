@@ -93,7 +93,7 @@ if __name__ == '__main__':
             cursor = transaction.cursor()
             cursor.execute('select * from pg_tables')
             transaction.commit()
-    except Exception, x:
+    except Exception as x:
         print str(x)
 
     # This second transaction fails with a (contrived) exception being raised.
@@ -105,5 +105,5 @@ if __name__ == '__main__':
             cursor = transaction.cursor()
             cursor.execute('select * from pg_tables')
             raise Exception("we failed for some reason")
-    except Exception, x:
+    except Exception as x:
         print str(x)

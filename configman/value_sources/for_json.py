@@ -55,7 +55,7 @@ class ValueSource(object):
             try:
                 with open(source) as fp:
                     self.values = json.load(fp)
-            except IOError, x:
+            except IOError as x:
                 # The file doesn't exist.  That's ok, we'll give warning
                 # but this isn't a fatal error
                 import warnings

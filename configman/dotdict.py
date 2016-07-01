@@ -293,7 +293,7 @@ class DotDictWithAcquisition(DotDict):
         d.a = 39
         try:
             print d.x.y.z.a
-        except KeyError, e:
+        except KeyError as e:
             assert str(e) == 'x'
 
     This behavior seems inconsistent, but really works so by design.  The form

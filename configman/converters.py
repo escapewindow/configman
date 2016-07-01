@@ -7,6 +7,7 @@ import re
 import datetime
 import types
 import json
+import six
 
 from configman.datetime_util import (
     datetime_from_ISO_string,
@@ -64,7 +65,7 @@ def str_dict_keys(a_dict):
     """
     new_dict = {}
     for key in a_dict:
-        if isinstance(key, unicode):
+        if six.PY2 and isinstance(key, six.text_type):
             new_dict[str(key)] = a_dict[key]
         else:
             new_dict[key] = a_dict[key]
@@ -93,9 +94,9 @@ def str_quote_stripper(input_str):
 
 #------------------------------------------------------------------------------
 # a bunch of known mappings of builtin items to strings
-import __builtin__
+import six.moves.builtins as builtins
 known_mapping_str_to_type = dict(
-    (key, val) for key, val in sorted(__builtin__.__dict__.items())
+    (key, val) for key, val in sorted(builtins.__dict__.items())
     if val not in (True, False)
 )
 
@@ -149,9 +150,9 @@ def str_to_python_object(input_str):
         for name in parts[1:]:
             obj = getattr(obj, name)
         return obj
-    except AttributeError, x:
+    except AttributeError as x:
         raise CannotConvertError("%s cannot be found" % input_str)
-    except ImportError, x:
+    except ImportError as x:
         raise CannotConvertError(str(x))
 
 class_converter = str_to_python_object  # for backward compatibility
@@ -330,7 +331,7 @@ str_to_instance_of_type_converters = {
     int: int,
     float: float,
     str: str,
-    unicode: unicode,
+    six.text_type: six.text_type,
     bool: boolean_converter,
     dict: json.loads,
     list: list_converter,
@@ -381,7 +382,7 @@ def arbitrary_object_to_string(a_thing):
         pass
     # is it something from a loaded module?
     try:
-        if a_thing.__module__ not in ('__builtin__', 'exceptions'):
+        if a_thing.__module__ not in ('__builtin__', 'builtins', 'exceptions'):
             if a_thing.__module__ == "__main__":
                 module_name = (
                     sys.modules['__main__']
@@ -414,7 +415,7 @@ def list_to_str(a_list, delimiter=', '):
 
 #------------------------------------------------------------------------------
 known_mapping_type_to_str = dict(
-    (val, key) for key, val in sorted(__builtin__.__dict__.items())
+    (val, key) for key, val in sorted(builtins.__dict__.items())
     if val not in (True, False, list, dict)
 )
 
@@ -423,7 +424,7 @@ to_string_converters = {
     int: str,
     float: str,
     str: str,
-    unicode: unicode,
+    six.text_type: six.text_type,
     list: list_to_str,
     tuple: list_to_str,
     bool: lambda x: 'True' if x else 'False',

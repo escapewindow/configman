@@ -147,7 +147,7 @@ class ValueSource(object):
         ):
             try:
                 self.config_obj = ConfigObjWithIncludes(source)
-            except Exception, x:
+            except Exception as x:
                 raise LoadingIniFileFailsException(
                     "ConfigObj cannot load ini: %s" % str(x)
                 )

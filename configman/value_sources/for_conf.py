@@ -80,7 +80,7 @@ class ValueSource(object):
                         previous_key = key
                     except ValueError:
                         self.values[line] = ''
-        except Exception, x:
+        except Exception as x:
             raise NotAConfigFileError(
                 "Conf couldn't interpret %s as a config file: %s"
                 % (candidate, str(x))
